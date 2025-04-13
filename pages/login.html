@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login Page</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+
+        .hover-input:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .hover-button:hover {
+            background-color: #2563eb;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+    <script src="./signup.js"></script>
+    <script>
+        const firebaseConfig = {
+                apiKey: "AIzaSyCA-QB0_T3Ano-0iIy7XME-opFc6MZXzRg",
+                authDomain: "safeheart-2d878.firebaseapp.com",
+                databaseURL: "https://safeheart-2d878-default-rtdb.firebaseio.com",
+                projectId: "safeheart-2d878",
+                storageBucket: "safeheart-2d878.appspot.com",
+                messagingSenderId: "968110391488",
+                appId: "1:968110391488:web:235a04d5b59205b1076d25"
+        };
+
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        async function sendddata(event) {
+                event.preventDefault();
+
+                var name = document.getElementById("fullName").value;
+                var datebirth = document.getElementById("dob").value;
+                var gender = document.getElementById("gender").value;
+                var phone = document.getElementById("phone").value;
+                var mail = document.getElementById("signupEmail").value;
+                var password = document.getElementById("newPassword").value;
+                var address = document.getElementById("address").value;
+                var medicalHistory = document.getElementById("history").value;
+                var PreferredDoctor = document.getElementById("doctorType").value;
+                var nameEmergency = document.getElementById("emergencyName").value;
+                var phoneEmergency = document.getElementById("emergencyPhone").value;
+                var deviceKey = document.getElementById("deviceKey").value;
+
+                var pathint = {
+                    FullName: name,
+                    dateofbirth: datebirth,
+                    gender: gender,
+                    phone: phone,
+                    mail: mail,
+                    password: password,
+                    address: address,
+                    medicalHistory: medicalHistory,
+                    PreferredDoctor: PreferredDoctor,
+                    nameEmergency: nameEmergency,
+                    phoneEmergency: phoneEmergency,
+                    deviceKey: deviceKey 
+                };
+
+                console.log("Sending Data:", pathint);
+
+                try {
+                    var res = await fetch("https://safeheart-2d878-default-rtdb.firebaseio.com/pathint.json", {
+                        method: "POST",
+                        headers: { 'Content-type': 'application/json' },
+                        body: JSON.stringify(pathint)
+                    });
+                    var res2 = await res.json();
+                    console.log("Response from Firebase:", res2);
+
+                    clear(); // Make sure you define this function to reset form inputs if needed
+
+                } catch (error) {
+                    console.error("Error occurred:", error);
+                }
+            }
+
+    function clear() {
+        document.getElementById("signupForm").reset();
+    }
+
+        // async function sendddata(event) {
+        //         event.preventDefault(); // تمنع إعادة تحميل الصفحة عند الضغط على زر Login
+
+        //         var name = document.getElementById("name").value;
+        //         var datebirth = document.getElementById("dateofbirth").value;
+        //         var gender = document.getElementById("gender").value;
+        //         var phone = document.getElementById("phone").value;
+        //         var mail = document.getElementById("mail").value;
+        //         var password = document.getElementById("password").value;
+        //         var address = document.getElementById("address").value;
+        //         var medicalHistory = document.getElementById("medicalHistory").value;
+        //         var PreferredDoctor = document.getElementById("PreferredDoctor").value;
+        //         var nameEmergency = document.getElementById("nameEmergency").value;
+        //         var phoneEmergency = document.getElementById("phoneEmergency").value;
+
+        //         var pathint = {
+        //             FullName: name,
+        //             dateofbirth: datebirth,
+        //             gender: gender,
+        //             phone : phone,
+        //             mail: mail,
+        //             password: password,
+        //             address : address,
+        //             medicalHistory : medicalHistory,
+        //             PreferredDoctor : PreferredDoctor,
+        //             nameEmergency : nameEmergency,
+        //             phoneEmergency : phoneEmergency
+
+        //         };
+
+        //         console.log("Sending Data:", pathint);
+
+        //         try {
+        //         var res = await fetch("https://safeheart-2d878-default-rtdb.firebaseio.com/pathint.json", {
+        //             method: "POST",
+        //             headers: { 'Content-type': 'application/json' },
+        //             body: JSON.stringify(pathint)
+        //         });
+        //         var res2 = await res.json();
+        //             console.log("Response from Firebase:", res2);
+        //             clear()
+        //         } catch (error) {
+        //             console.error("Error occurred:", error);
+        //         }
+        //         // var xhr = new XMLHttpRequest()
+        //         // xhr.open("POST", "https://safeheart-2d878-default-rtdb.firebaseio.com/pathint.json")
+        //         // xhr.setRequestHeader('Content-type', 'application/json')
+        //         // xhr.send(JSON.stringify(pathint))
+        //         // xhr.addEventListener("readstatechange",function() {
+        //         //     if (xhr.readyState == 4 && xhr.status == 200) {
+        //         //         console.log(JSON.parse(xhr.responseText));
+        //         //     }
+                    
+        //         // })
+        //     }
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        function login(event) {
+                event.preventDefault(); // مهم علشان يمنع الفورم من الريلود
+
+                const email = document.getElementById('emaillogin').value.trim();
+                const password = document.getElementById('passwordlogin').value.trim();
+                const msg = document.getElementById('message');
+                msg.textContent = '';
+
+                // تأكد إن db معرف ومربوط بـ Firebase
+                db.ref('pathint').once('value')
+                    .then(snapshot => {
+                        let found = false;
+
+                        snapshot.forEach(childSnapshot => {
+                            const user = childSnapshot.val();
+                            const userId = childSnapshot.key;
+
+                            if (user.mail === email && user.password === password) {
+                                found = true;
+                                sessionStorage.setItem('loggedInUserId', userId);
+                                window.location.href = "./profile.html"; // غير الصفحة هنا لو عندك صفحة تانية
+                            }
+                        });
+
+                        if (!found) {
+                            msg.textContent = "Invalid email or password.";
+                        }
+                    })
+                    .catch(error => {
+                        msg.textContent = "Error: " + error.message;
+                    });
+            }
+
+
+        
+    </script>
+</head>
+
+<body class="bg-blue-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm transition-all fade-in">
+        <!-- Logo -->
+        <div class="flex justify-center mb-8 slide-in">
+            <img class="w-24 h-24 rounded-full"
+                src="../img/354d8dea-33d6-4f38-a13f-3127f64fece3_removalai_preview.png"
+                alt="Logo" />
+        </div>
+
+        <form id="loginForm" class="slide-in" onsubmit="login(event)">
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="emaillogin">Email Address</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 shadow-sm hover-input transition-all">
+                    <i class="fas fa-envelope text-gray-400 mr-2"></i>
+                    <input id="emaillogin" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="Username@gmail.com" type="email" />
+                </div>
+            </div>
+        
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="passwordlogin">Password</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 shadow-sm hover-input transition-all">
+                    <i class="fas fa-lock text-gray-400 mr-2"></i>
+                    <input id="passwordlogin" class="bg-transparent focus:outline-none w-full text-gray-700"
+                        placeholder="********" required type="password" />
+                </div>
+            </div>
+        
+            <div class="mb-6">
+                <button class="w-full bg-blue-800 text-white py-2 rounded-lg hover-button transition-all" onclick="login()"
+                    type="submit" >Login</button>
+
+                    <!-- <button onclick="login()">Login</button> -->
+            </div>
+        
+            <p id="message" class="text-red-500 text-sm mt-2"></p>
+        
+            <div class="flex justify-between text-sm text-gray-600">
+                <a class="hover:underline cursor-pointer" onclick="showSignup()">Signup</a>
+                <a class="hover:underline" href="#">Forgot Password?</a>
+            </div>
+        </form>
+
+
+
+        <!-- Signup Form -->
+        <form id="signupForm" class="hidden slide-in">
+            <!-- Full Name -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName" id="name">Full Name</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-user text-gray-400 mr-2"></i>
+                    <input type="text" id="fullName" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="John Doe" />
+                </div>
+            </div>
+
+
+            <!-- Date of Birth -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="dob" id="dateofbirth">Date of Birth</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-calendar-alt text-gray-400 mr-2"></i>
+                    <input type="date" id="dob" class="bg-transparent focus:outline-none w-full text-gray-700"  required/> 
+                </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="gender" id="gender">Gender</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-venus-mars text-gray-400 mr-2"></i>
+                    <select id="gender" class="bg-transparent focus:outline-none w-full text-gray-700"> required
+                        <option value="" disabled selected>Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone" id="phone">Phone Number</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-phone text-gray-400 mr-2"></i>
+                    <input type="tel" id="phone" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="+1234567890" />
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="signupEmail" id="mail">Email Address</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-envelope text-gray-400 mr-2"></i>
+                    <input type="email" id="signupEmail" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="you@example.com" />
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="newPassword" id="password">Password</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-lock text-gray-400 mr-2"></i>
+                    <input type="password" id="newPassword" required
+                        class="bg-transparent focus:outline-none w-full text-gray-700" placeholder="********" />
+                    <i class="fas fa-eye text-gray-400 ml-2 cursor-pointer" id="toggleNewPassword"
+                        onclick="togglePasswordVisibility('newPassword', 'toggleNewPassword')"></i>
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="confirmPassword">Confirm Password</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-lock text-gray-400 mr-2"></i>
+                    <input type="password" id="confirmPassword" required
+                        class="bg-transparent focus:outline-none w-full text-gray-700" placeholder="********" />
+                    <i class="fas fa-eye text-gray-400 ml-2 cursor-pointer" id="toggleConfirmPassword"
+                        onclick="togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword')"></i>
+                </div>
+            </div>
+
+            <!-- Device Key -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="deviceKey">Device Key</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-key text-gray-400 mr-2"></i>
+                    <input type="text" id="deviceKey" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="Enter your device key" />
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="address" id="address">Address</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                    <input type="text" id="address" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="123 Main St, City" />
+                </div>
+            </div>
+
+            <!-- Medical History -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="history" id="medicalHistory">Medical History</label>
+                <textarea id="history" class="w-full border rounded-lg p-2 text-gray-700 hover-input transition-all" required
+                    rows="3" placeholder="List any chronic conditions, allergies, etc."></textarea>
+            </div>
+
+            <!-- Preferred Doctor Type -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="doctorType" id="PreferredDoctor">Preferred Doctor Type</label>
+                <div class="flex items-center border rounded-lg bg-white p-2 hover-input transition-all">
+                    <i class="fas fa-user-md text-gray-400 mr-2"></i>
+                    <input type="text" id="doctorType" class="bg-transparent focus:outline-none w-full text-gray-700" required
+                        placeholder="e.g. Cardiologist" />
+                </div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <h3 class="text-gray-700 font-semibold text-md mb-2 mt-4">Emergency Contact Information</h3>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-1" for="emergencyName" id="nameEmergency">Full Name</label>
+                <input type="text" id="emergencyName"
+                    class="w-full border rounded-lg p-2 text-gray-700 hover-input transition-all" required
+                    placeholder="Emergency Contact Name" />
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-1" for="emergencyPhone" id="phoneEmergency">Phone Number</label>
+                <input type="tel" id="emergencyPhone"
+                    class="w-full border rounded-lg p-2 text-gray-700 hover-input transition-all" required
+                    placeholder="Emergency Phone" />
+            </div>
+
+            <!-- Signup Button -->
+            <div class="mb-6">
+                <button class="w-full bg-blue-800 text-white py-2 rounded-lg hover-button transition-all" onclick="sendddata(event)"
+                    type="submit">Signup</button>
+            </div>
+
+            <div class="text-sm text-gray-600 text-center">
+                Already have an account? <a class="hover:underline cursor-pointer" onclick="showLogin()">Login</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

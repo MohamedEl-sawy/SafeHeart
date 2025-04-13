@@ -1,0 +1,181 @@
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .button-hover:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+    <!-- link bootstrab -->
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+</head>
+
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen flex-col">
+    <div class="bg-white w-full max-w-md rounded-lg shadow-lg mb-2">
+        <div class="p-6 border-b">
+            <h1 class="text-center text-2xl font-bold" id="page-title">
+                Health History
+            </h1>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-around py-4 border-b" id="tabs">
+            <button class="text-gray-700 text-lg button-hover" onclick="showContent('daily')">Daily</button>
+            <button class="text-gray-700 text-lg button-hover" onclick="showContent('weekly')">Weekly</button>
+            <button class="text-gray-700 text-lg button-hover" onclick="showContent('monthly')">Monthly</button>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6" id="content">
+            <!-- Daily Section -->
+            <div class="content-section fade-enter-active" id="daily">
+                <div class="flex items-center justify-between py-4 border-b">
+                    <div class="flex items-center">
+                        <i class="fas fa-heart text-3xl text-gray-700"></i>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-700 text-lg">Heart Rate</p>
+                            <p class="text-gray-500 text-md">Avg: 78 bpm</p>
+                        </div>
+                    </div>
+                    <img alt="Heart rate graph" class="w-20 h-10" src="../img/heart-rate.png" />
+                </div>
+                <div class="flex items-center justify-between py-4 border-b">
+                    <div class="flex items-center">
+                        <i class="fas fa-tint text-3xl text-gray-700"></i>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-700 text-lg">Blood Pressure</p>
+                            <p class="text-gray-500 text-md">Avg: 120/80 mmHg</p>
+                        </div>
+                    </div>
+                    <img alt="Blood pressure graph" class="w-20 h-10" src="../img/blood-pressure.png" />
+                </div>
+                <div class="flex items-center justify-between py-4 border-b">
+                    <div class="flex items-center">
+                        <i class="fas fa-tint text-3xl text-gray-700"></i>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-700 text-lg">SpO<sub>2</sub></p>
+                            <p class="text-gray-500 text-md">Avg: 96%</p>
+                        </div>
+                    </div>
+                    <img alt="SpO2 graph" class="w-20 h-10" src="../img/oxygen-saturation.png" />
+                </div>
+                <div class="flex items-center justify-between py-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-thermometer-half text-3xl text-gray-700"></i>
+                        <div class="ml-4">
+                            <p class="font-bold text-gray-700 text-lg">Temperature</p>
+                            <p class="text-gray-500 text-md">Avg: 36.7°C</p>
+                        </div>
+                    </div>
+                    <img alt="Temperature graph" class="w-20 h-10" src="../img/temperature.png" />
+                </div>
+            </div>
+
+            <!-- Weekly Section -->
+            <div class="content-section hidden" id="weekly">
+                <p class="text-center text-gray-700 text-lg">Weekly Data</p>
+            </div>
+
+            <!-- Monthly Section -->
+            <div class="content-section hidden" id="monthly">
+                <p class="text-center text-gray-700 text-lg">Monthly Data</p>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="content-section hidden" id="notifications">
+                <p class="text-gray-700 text-lg font-semibold mb-2">Notifications</p>
+                <ul class="space-y-3">
+                    <li class="p-3 bg-gray-100 rounded shadow-sm">
+                        <p class="text-gray-800 font-medium">New heart rate data available</p>
+                        <p class="text-sm text-gray-500">Just now</p>
+                    </li>
+                    <li class="p-3 bg-gray-100 rounded shadow-sm">
+                        <p class="text-gray-800 font-medium">Blood pressure slightly high</p>
+                        <p class="text-sm text-gray-500">2 hours ago</p>
+                    </li>
+                    <li class="p-3 bg-gray-100 rounded shadow-sm">
+                        <p class="text-gray-800 font-medium">Daily check completed</p>
+                        <p class="text-sm text-gray-500">Today at 9:00 AM</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="flex justify-around py-4 border-t bg-white w-full max-w-md rounded-lg shadow-md">
+        <button class="flex flex-col items-center text-gray-700" onclick="navigateToPage('home')">
+            <i class="fas fa-home text-2xl"></i>
+            <span class="text-sm">Home</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-700" onclick="navigateToPage('history')">
+            <i class="fas fa-history text-2xl"></i>
+            <span class="text-sm">History</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-700" onclick="navigateToPage('notifications')">
+            <i class="fas fa-bell text-2xl"></i>
+            <span class="text-sm">Notifications</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-700" onclick="navigateToPage('Profile')">
+            <i class="fas fa-user text-2xl"></i>
+            <span class="text-sm">Profile</span>
+        </button>
+    </div>
+
+    <script>
+        function navigateToPage(page) {
+            if (page === 'home') {
+                window.location.href = 'homeDashboard.html'; // Replace with actual page link
+            } else if (page === 'history') {
+                window.location.href = 'HealthHistory.html'; // Replace with actual page link
+            } else if (page === 'notifications') {
+                window.location.href = 'Notifications.html'; // Replace with actual page link
+            } else if (page === 'Profile') {
+                window.location.href = 'Profile.html'; // Replace with actual page link
+            }
+        }
+
+        function showContent(section) {
+            const sections = document.querySelectorAll('.content-section');
+            const tabs = document.getElementById('tabs');
+            const title = document.getElementById('page-title');
+
+            sections.forEach(sec => {
+                if (sec.id === section) {
+                    sec.classList.remove('hidden');
+                    sec.classList.add('fade-enter-active');
+                } else {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('fade-enter-active');
+                }
+            });
+
+            // Show or hide the tabs depending on section
+            if (section === 'daily' || section === 'weekly' || section === 'monthly') {
+                tabs.classList.remove('hidden');
+                title.textContent = 'Health History';
+            } else if (section === 'notifications') {
+                tabs.classList.add('hidden');
+                title.textContent = 'Notifications';
+            }
+        }
+    </script>
+    <!-- link bootstrap -->
+    <script src="../JS/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
